@@ -18,14 +18,14 @@ TURQUOISE = (64, 224, 208)
 
 
 class Square:
-    """Handling the squares"""
+    """Handling the squares, the 'state' of the square is based on its color"""
     def __init__(self, row, col, width, total_rows):
         self.row = row
         self.col = col
-        self.x = row * width
-        self.y = col * width
+        self.x = row * width  # x coordinate of a square
+        self.y = col * width  # y coordinate of a square
         self.color = WHITE
-        self.neighbours = []
+        self.neighbours = []  # neighbours of a square
         self.width = width
         self.total_rows = total_rows
 
@@ -73,16 +73,16 @@ class Square:
 
     def update_neighbours(self, grid):
         self.neighbours = []
-        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():
+        if self.row < self.total_rows - 1 and not grid[self.row + 1][self.col].is_barrier():  # TOP
             self.neighbours.append(grid[self.row + 1][self.col])
 
-        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():
+        if self.row > 0 and not grid[self.row - 1][self.col].is_barrier():  # BOTTOM
             self.neighbours.append(grid[self.row - 1][self.col])
 
-        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():
+        if self.col < self.total_rows - 1 and not grid[self.row][self.col + 1].is_barrier():  # LEFT
             self.neighbours.append(grid[self.row][self.col + 1])
 
-        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():
+        if self.col > 0 and not grid[self.row][self.col - 1].is_barrier():  # RIGHT
             self.neighbours.append(grid[self.row][self.col - 1])
 
     def __lt__(self, other):
@@ -90,12 +90,14 @@ class Square:
 
 
 def h(p1, p2):
+    """Returns the distance between the squares"""
     x1, y1, = p1
     x2, y2 = p2
     return abs(x1 - x2) + abs(y1 - y2)
 
 
 def reconstruct_path(came_from, current, draw):
+    """Draws a path from the start to the end square once we figure out the path"""
     while current in came_from:
         current = came_from[current]
         current.make_path()
@@ -147,6 +149,7 @@ def algorithm(draw, grid, start, end):
 
 
 def make_grid(rows, width):
+    """Creates a 2d grid and appends square objects into the grid"""
     grid = []
     gap = width // rows
     for i in range(rows):
@@ -177,6 +180,7 @@ def draw(win, grid, rows, width):
 
 
 def get_clicked_pos(pos, rows, width):
+    """Gets the coordinates of a clicked element"""
     gap = width // rows
     y, x = pos
     row = y // gap
@@ -192,7 +196,6 @@ def main(win, width):
     start = None
     end = None
     run = True
-    started = False
 
     while run:
         draw(win, grid, ROWS, width)
