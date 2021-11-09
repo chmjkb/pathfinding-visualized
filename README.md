@@ -1,7 +1,7 @@
 # Installation
 In order to install the program, you'll need to type the following command into your terminal:
 ```
-git-clone https://github.com/chmjkb/pathfinding-visualized.git
+git clone https://github.com/chmjkb/pathfinding-visualized.git
 ```
 In order to run it, change the directory to where you have the script, and type:
 ```
